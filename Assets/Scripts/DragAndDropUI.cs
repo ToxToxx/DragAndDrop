@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class DragAndDropUI : EventTrigger
 {
+    //работает через Image
     private bool _dragging;
     private Vector2 _offset;
 
@@ -22,5 +23,8 @@ public class DragAndDropUI : EventTrigger
         _offset = eventData.position - new Vector2(transform.position.x, transform.position.y);
     }
 
-
+    public override void OnPointerUp(PointerEventData eventData)
+    {
+        _dragging = false;
+    }
 }
