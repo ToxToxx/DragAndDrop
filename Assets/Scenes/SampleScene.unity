@@ -900,6 +900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentCollider: {fileID: 0}
+  _limitY: 1.04
 --- !u!4 &1752917619
 Transform:
   m_ObjectHideFlags: 0

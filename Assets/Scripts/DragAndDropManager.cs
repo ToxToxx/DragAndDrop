@@ -5,6 +5,7 @@ using UnityEngine;
 public class DragAndDropManager : MonoBehaviour
 {
     [SerializeField] private Collider _currentCollider;
+    [SerializeField] private float _limitY = 0.5f; // pivot
 
     private Camera _mainCamera;
     private Plane _dragPlane;
@@ -13,7 +14,7 @@ public class DragAndDropManager : MonoBehaviour
     
     private float _maxDistance = 2000f;
     private string _paramsLayerNames = "DragAndDropable";
-    private float _limitY = 0.5f; // pivot capsuli
+    
 
     private void Start()
     {
@@ -22,7 +23,30 @@ public class DragAndDropManager : MonoBehaviour
 
     private void Update()
     {
-        
+        //для мыши
+#if UNITY_EDITOR
+
+        if(Input.GetMouseButtonDown(0))
+            SelectPart();
+
+        if (Input.GetMouseButtonUp(0))
+            Drop();
+#endif
+
+        //для тача
+
+        if(Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+
+            if(touch.phase == TouchPhase.Began )
+                SelectPart();
+
+            if(touch.phase == TouchPhase.Ended)
+                Drop();
+        }
+
+        DragAndDropObject();
     }
 
     private void SelectPart()
