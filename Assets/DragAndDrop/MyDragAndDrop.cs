@@ -13,6 +13,7 @@ public class MyDragAndDrop : MonoBehaviour
         _mainCamera = Camera.main;
     }
 
+    //из курсора выходит луч и мы выделяем объект
     private void OnMouseDown()
     {
         _dragPlane = new Plane(_mainCamera.transform.forward, transform.position);
@@ -25,7 +26,11 @@ public class MyDragAndDrop : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        
+        Ray camRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        float planeDist;
+        _dragPlane.Raycast(camRay, out planeDist);
+        transform.position = camRay.GetPoint(planeDist) + _offset;
     }
 
     private void OnMouseUp()
