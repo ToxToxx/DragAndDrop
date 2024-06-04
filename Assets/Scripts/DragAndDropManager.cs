@@ -10,8 +10,10 @@ public class DragAndDropManager : MonoBehaviour
     private Plane _dragPlane;
     private bool _inputStart;
     private Vector3 _offset;
+    
     private float _maxDistance = 2000f;
-    private string paramsLayerNames = "Robot";
+    private string _paramsLayerNames = "DragAndDropable";
+    private float _limitY = 0.5f;
 
     private void Start()
     {
@@ -28,13 +30,34 @@ public class DragAndDropManager : MonoBehaviour
         RaycastHit hit;
 
         Ray camRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        if(Physics.Raycast(camRay, out hit, _maxDistance, LayerMask.GetMask(paramsLayerNames)))
+        if(Physics.Raycast(camRay, out hit, _maxDistance, LayerMask.GetMask(_paramsLayerNames)))
         {
              _currentCollider = hit.collider;
             _dragPlane = new Plane(_mainCamera.transform.forward, _currentCollider.transform.position);
             float planeDist;
             _dragPlane.Raycast(camRay, out planeDist);
             _offset = _currentCollider.transform.position - camRay.GetPoint(planeDist);
+        }
+    }
+
+    private void DragAndDropObject()
+    {
+        if(_currentCollider == null) return;
+
+        Ray camRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        float planeDist;
+        _dragPlane.Raycast(camRay, out planeDist);
+
+        _currentCollider.transform.position = camRay.GetPoint(planeDist) + _offset;
+
+        //Ћимит на Y
+        if(_currentCollider.transform.position.y < _limitY)
+        {
+            _currentCollider.transform.position =
+                new Vector3(_currentCollider.transform.position.x,
+                _limitY,
+                _currentCollider.transform.position.z);
         }
     }
 }
