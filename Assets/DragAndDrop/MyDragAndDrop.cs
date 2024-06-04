@@ -21,9 +21,10 @@ public class MyDragAndDrop : MonoBehaviour
 
         float planeDist;
         _dragPlane.Raycast(camRay, out planeDist);
-        _offset =  transform.position - camRay.GetPoint(planeDist);
+        _offset =  transform.position - camRay.GetPoint(planeDist); //объект не прыгает с оффсетом при нажатии на грань
     }
 
+    //передвижение объекта
     private void OnMouseDrag()
     {
         Ray camRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -35,6 +36,6 @@ public class MyDragAndDrop : MonoBehaviour
 
     private void OnMouseUp()
     {
-        
+        Debug.Log("End drag");
     }
 }
