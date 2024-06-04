@@ -13,7 +13,7 @@ public class DragAndDropManager : MonoBehaviour
     
     private float _maxDistance = 2000f;
     private string _paramsLayerNames = "DragAndDropable";
-    private float _limitY = 0.5f;
+    private float _limitY = 0.5f; // pivot capsuli
 
     private void Start()
     {
@@ -59,5 +59,16 @@ public class DragAndDropManager : MonoBehaviour
                 _limitY,
                 _currentCollider.transform.position.z);
         }
+    }
+
+    private void Drop()
+    {
+        if ( _currentCollider == null) return;
+
+        _currentCollider.transform.position = 
+            new Vector3(_currentCollider.transform.position.x,
+            _limitY,
+            _currentCollider.transform.position.z);
+        _currentCollider = null;
     }
 }
